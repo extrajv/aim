@@ -13,16 +13,16 @@ end
 local abcurves = (shared.abcurves ~= nil) and shared.abcurves or (function()
 	warn("[INIT] ABCurves not loaded, downloading from repository, sit tight")
 
-	local success, err = get('abcurves.luau')
+	local success, field = get('abcurves.luau')
 	if success then
-		local abcurves = loadstring(success)()
+		local abcurves = loadstring(field)()
 
 		shared.abcurves = abcurves
 		return abcurves
 	end
 
 	if not success then
-		warn('[FAIL] Failed to fetch abcurves.luau from '..repository..', Error:'..err)
+		warn('[FAIL] Failed to fetch abcurves.luau from '..repository..', Error:'..field)
 	end
 end)()
 
