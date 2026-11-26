@@ -13,7 +13,10 @@ end
 local abcurves = (shared.abcurves ~= nil) and shared.abcurves or (function()
 	warn("[INIT] ABCurves not loaded, downloading from repository, sit tight")
 
-	local success, field = get('abcurves.luau')
+	local success, field = pcall(function()
+		return game:HttpGet(repository .. "abcurves.luau")
+	end)
+	print(typeof(success), typeof(field))
 	if success then
 		local abcurves = loadstring(field)()
 
