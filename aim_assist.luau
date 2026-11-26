@@ -77,7 +77,7 @@ end
 
 function aim_assist.hook_pick(self, f)
 	self.custom_pick_hook = f
-end)
+end
 
 function aim_assist.set_enabled(self, enabled: boolean)
 	self.enabled = enabled
