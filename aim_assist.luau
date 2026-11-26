@@ -98,7 +98,7 @@ function aim_assist.pick(self, camera: Camera)
 	self.head = nil
 	self.humanoid = nil
 	if self.custom_pick_hook then
-		self.custom_pick_hook(origin, look, best_dot)
+		self:custom_pick_hook(origin, look, best_dot)
 	else
 		for _, target in game.Players:GetPlayers() do
 			target = target.Character
