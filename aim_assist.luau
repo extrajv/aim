@@ -155,7 +155,7 @@ function aim_assist.step(self, camera: Camera, offset_yaw: number, offset_pitch:
 	local before_x, before_y = movement.x, movement.y
 	local ok, count, xs, ys = pcall(movement.advance, movement, now_us)
 	if not ok then
-		warn(count)
+		warn(ok, count, xs, ys)
 		self:restart()
 		return 0, 0
 	end
