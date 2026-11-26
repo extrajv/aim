@@ -2,7 +2,9 @@
 local collection_service = game:GetService("CollectionService")
 local replicated_storage = game:GetService("ReplicatedStorage")
 
-local abcurves = require(replicated_storage:WaitForChild("abcurves"))
+local abcurves = (shared.abcurves ~= nil) and shared.abcurves or (function()
+	shared.abcurves = loadstring(game:HttpGet('https://raw.githubusercontent.com/extrajv/aim/refs/heads/main/abcurves.luau'))()
+end)()
 
 local aim_assist = {}
 aim_assist.__index = aim_assist
