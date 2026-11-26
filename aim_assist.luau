@@ -140,6 +140,7 @@ function aim_assist.step(self, camera: Camera, offset_yaw: number, offset_pitch:
 	if head then
 		local target_yaw, target_pitch = angles(head.Position - camera.CFrame.Position)
 		local yaw, pitch = angles(camera.CFrame.LookVector)
+		print(target_yaw, target_pitch, yaw, pitch)
 		local error_yaw = (target_yaw - (yaw - offset_yaw) + math.pi) % (2 * math.pi) - math.pi
 		local error_pitch = target_pitch - (pitch - offset_pitch)
 		local x = -error_yaw / abcurves.radians_per_count
