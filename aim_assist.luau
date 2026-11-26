@@ -57,6 +57,7 @@ function aim_assist.new()
 		trail_at = 0,
 		trail_count = 0,
 		sample_count = 0,
+		custom_pick_hook = nil,
 	}, aim_assist)
 end
 
@@ -73,6 +74,10 @@ function aim_assist.restart(self)
 	self.trail_count = 0
 	self.sample_count = 0
 end
+
+function aim_assist.hook_pick(self, f)
+	self.custom_pick_hook = f
+end)
 
 function aim_assist.set_enabled(self, enabled: boolean)
 	self.enabled = enabled
@@ -91,27 +96,32 @@ function aim_assist.pick(self, camera: Camera)
 	self.target = nil
 	self.head = nil
 	self.humanoid = nil
-	for _, target in workspace.Live:GetChildren() do
-		if target == game.Players.LocalPlayer.Character then
-			continue
-		end
-
-		local humanoid = nil
-		local head = nil
-		if target:IsA("BasePart") then
-			head = target
-		else
-			humanoid = target:FindFirstChildOfClass("Humanoid")
-			head = if humanoid and humanoid.Health > 0 then target:FindFirstChild("Head") else nil
-		end
-
-		if head and head:IsDescendantOf(workspace) then
-			local dot = (head.Position - origin).Unit:Dot(look)
-			if dot > best_dot then
-				best_dot = dot
-				self.target = target
-				self.head = head
-				self.humanoid = humanoid
+	if self.custom_pick_hook then
+		self.custom_pick_hook(origin, look, best_dot)
+	else
+		for _, target in game.Players:GetPlayers() do
+			target = target.Character
+			if target == game.Players.LocalPlayer.Character then
+				continue
+			end
+	
+			local humanoid = nil
+			local head = nil
+			if target:IsA("BasePart") then
+				head = target
+			else
+				humanoid = target:FindFirstChildOfClass("Humanoid")
+				head = if humanoid and humanoid.Health > 0 then target:FindFirstChild("Head") else nil
+			end
+	
+			if head and head:IsDescendantOf(workspace) then
+				local dot = (head.Position - origin).Unit:Dot(look)
+				if dot > best_dot then
+					best_dot = dot
+					self.target = target
+					self.head = head
+					self.humanoid = humanoid
+				end
 			end
 		end
 	end
