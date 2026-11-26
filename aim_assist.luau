@@ -155,7 +155,6 @@ function aim_assist.step(self, camera: Camera, offset_yaw: number, offset_pitch:
 	self.has_target = head ~= nil
 	local before_x, before_y = movement.x, movement.y
 	local xs, ys = movement:advance(now_us)
-	print(xs,ys)
 --[[
 	if not ok then
 		warn(ok, count, xs, ys)
