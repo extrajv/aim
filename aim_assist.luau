@@ -1,10 +1,34 @@
 --!optimize 2
+const repository = "https://raw.githubusercontent.com/extrajv/aim/refs/heads/main/"
 local collection_service = game:GetService("CollectionService")
 local replicated_storage = game:GetService("ReplicatedStorage")
 
+local function get(name)
+	local success, err = pcall(function()
+		return game:HttpGet(repository..name)
+	end)
+	return success, err
+end
+
 local abcurves = (shared.abcurves ~= nil) and shared.abcurves or (function()
-	shared.abcurves = loadstring(game:HttpGet('https://raw.githubusercontent.com/extrajv/aim/refs/heads/main/abcurves.luau'))()
+	warn("[INIT] ABCurves not loaded, downloading from repository, sit tight")
+
+	local success, err = get('abcurves.luau')
+	if success then
+		local abcurves = loadstring(success)()
+
+		shared.abcurves = abcurves
+		return abcurves
+	end
+
+	if not success then
+		warn('[FAIL] Failed to fetch abcurves.luau from '..repository..', Error:'..err)
+	end
 end)()
+
+if not abcurves then
+	return false
+end
 
 local aim_assist = {}
 aim_assist.__index = aim_assist
