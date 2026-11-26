@@ -125,7 +125,7 @@ local numeric = (function()
 
 	warn("[NUMERIC] Initialized!")
 	return numeric
-end)
+end)()
 
 warn("[INIT] Initializing rng service")
 local rng = (function()
@@ -1076,7 +1076,7 @@ local kernels = (function()
 
 	warn("[KERNEL] Initialized!")
 	return kernels
-end)
+end)()
 
 warn("[INIT] Initializing planner service")
 local planner = (function()
