@@ -1,4 +1,5 @@
 --!optimize 2
+print('Hi')
 const repository = "https://raw.githubusercontent.com/extrajv/aim/refs/heads/main/"
 local collection_service = game:GetService("CollectionService")
 local replicated_storage = game:GetService("ReplicatedStorage")
@@ -153,12 +154,15 @@ function aim_assist.step(self, camera: Camera, offset_yaw: number, offset_pitch:
 	end
 	self.has_target = head ~= nil
 	local before_x, before_y = movement.x, movement.y
-	local ok, count, xs, ys = pcall(movement.advance, movement, now_us)
+	local xs, ys = movement:advance(now_us)
+	print(xs,ys)
+--[[
 	if not ok then
 		warn(ok, count, xs, ys)
 		self:restart()
 		return 0, 0
 	end
+]]
 	for sample = 1, count do
 		self.sample_count += 1
 		if self.sample_count % 4 == 0 then
