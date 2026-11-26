@@ -91,7 +91,11 @@ function aim_assist.pick(self, camera: Camera)
 	self.target = nil
 	self.head = nil
 	self.humanoid = nil
-	for _, target in collection_service:GetTagged("sniper_target") do
+	for _, target in workspace.Live:GetChildren() do
+		if target == game.Players.LocalPlayer.Character then
+			continue
+		end
+
 		local humanoid = nil
 		local head = nil
 		if target:IsA("BasePart") then
@@ -100,6 +104,7 @@ function aim_assist.pick(self, camera: Camera)
 			humanoid = target:FindFirstChildOfClass("Humanoid")
 			head = if humanoid and humanoid.Health > 0 then target:FindFirstChild("Head") else nil
 		end
+
 		if head and head:IsDescendantOf(workspace) then
 			local dot = (head.Position - origin).Unit:Dot(look)
 			if dot > best_dot then
